@@ -52,6 +52,9 @@ function start() {
     petroCar--;
     ctx.font = "15px Arial";
     ctx.fillText('YOUR PETRO: ' + petroCar, 30, 50);
+    if (petroCar === 0) {
+        gamelose = true;
+    }
     if (!gamelose) {
         requestAnimationFrame(start);
     } else {

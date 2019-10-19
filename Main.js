@@ -10,13 +10,18 @@ let petro = document.getElementById('petro');
 let car = document.getElementById('car');
 let arrObstacle = [];
 let arrPetro = [];
-let gamelose = false;
+var gamelose = false;
 let count = 0;
 let petroCar = 500;
 let lv = 0;
 let arrMove = [];
 
+ctx.beginPath();
+ctx.drawImage(stress1, 200, 0, 400, 600);
+ctx.drawImage(car, myCar.xcar, myCar.ycar, 100, 100);
+
 function start() {
+    let highscore = localStorage.highScore;
     // vẽ đường
     ctx.clearRect(0, 0, 800, 600);
     ctx.beginPath();
@@ -35,7 +40,7 @@ function start() {
     }
     // tăng lv
     if (lv % 20 === 0 && lv !== 0) {
-        speedObs += 0.03;
+        speedObs += 0.05;
     }
     // vẽ petro
     myCar.eatPetro();
@@ -45,16 +50,18 @@ function start() {
     }
 
     // vẽ điểm
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = "cadetblue";
     ctx.font = "15px Arial";
-    ctx.fillText('YOUR SCORE: ' + count, 630, 50);
+    ctx.fillText('YOUR SCORE: ' + count, 30, 200);
+    ctx.fillText('HIGH SCORE: ' + highscore, 30, 100);
     // vẽ petro
     petroCar--;
     ctx.font = "15px Arial";
-    ctx.fillText('YOUR PETRO: ' + petroCar, 30, 50);
+    ctx.fillText('YOUR PETRO: ' + petroCar, 30, 300);
     if (petroCar === 0) {
         gamelose = true;
     }
+    // di chuyển xe
     if (arrMove[37] && myCar.xcar > 170) {
         myCar.xcar -= myCar.speedCar;
     }
@@ -72,10 +79,13 @@ function start() {
         requestAnimationFrame(start);
     } else {
         // vẽ losegame
-        ctx.clearRect(0, 0, 800, 600);
+
+        ctx.clearRect(200, 0, 400, 600);
+        ctx.font = "40px Arial";
         ctx.fillStyle = "red";
-        ctx.font = "50px Arial";
-        ctx.fillText("YOUR SCORE: " + count + "", 140, 290);
+        ctx.fillText("YOU LOSE", 300, 300);
+        ctx.strokeRect(200, 0, 400, 600);
+        localStorage.setItem('highScore', count);
     }
 }
 
@@ -87,7 +97,7 @@ function createObstacle() {
     if (!gamelose) {
         setTimeout(function () {
             createObstacle()
-        }, 500)
+        }, 450)
     }
 }
 
@@ -114,9 +124,19 @@ function moveSelectionUp(evt) {
     arrMove[evt.keyCode] = false;
 }
 
-createObstacle();
-createPeteo();
-start();
+function clickStart() {
+    gamelose = false;
+    arrObstacle = [];
+    arrPetro = [];
+    count = 0;
+    petroCar = 500;
+    lv = 0;
+    speedObs = 4;
+    createObstacle();
+    createPeteo();
+    start();
+}
+
 if (!gamelose) {
     window.addEventListener('keydown', moveSelectionDown);
     window.addEventListener('keyup', moveSelectionUp);

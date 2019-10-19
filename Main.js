@@ -38,13 +38,12 @@ function start() {
         speedObs += 0.03;
     }
     // vẽ petro
+    myCar.eatPetro();
     for (j = 0; j < arrPetro.length; j++) {
         arrPetro[j].movePetro(myCar);
         ctx.drawImage(petro, arrPetro[j].xpetro, arrPetro[j].ypetro, 30, 30);
     }
-    if (arrPetro[0].ypetro > 600) {
-        arrPetro.shift();
-    }
+
     // vẽ điểm
     ctx.fillStyle = "blue";
     ctx.font = "15px Arial";
@@ -61,6 +60,12 @@ function start() {
     }
     if (arrMove[39] && myCar.xcar < 530) {
         myCar.xcar += myCar.speedCar;
+    }
+    if (arrMove[38] && myCar.ycar > 0) {
+        myCar.ycar -= myCar.speedCar;
+    }
+    if (arrMove[40] && myCar.ycar < 500) {
+        myCar.ycar += myCar.speedCar;
     }
 
     if (!gamelose) {
@@ -90,6 +95,9 @@ function createObstacle() {
 function createPeteo() {
     let petro = new Petro(200 + Math.floor(Math.random() * 10) * 40, 0, true);
     arrPetro.push(petro);
+    if (arrPetro[0].ypetro > 600) {
+        arrPetro.shift();
+    }
     if (!gamelose) {
         setTimeout(function () {
             createPeteo()

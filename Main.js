@@ -14,6 +14,7 @@ let gamelose = false;
 let count = 0;
 let petroCar = 500;
 let lv = 0;
+let arrMove = [];
 
 function start() {
     // vẽ đường
@@ -55,6 +56,13 @@ function start() {
     if (petroCar === 0) {
         gamelose = true;
     }
+    if (arrMove[37] && myCar.xcar > 170) {
+        myCar.xcar -= myCar.speedCar;
+    }
+    if (arrMove[39] && myCar.xcar < 530) {
+        myCar.xcar += myCar.speedCar;
+    }
+
     if (!gamelose) {
         requestAnimationFrame(start);
     } else {
@@ -90,20 +98,18 @@ function createPeteo() {
 }
 
 // sự kiện bàn phím
-function moveEvent(evt) {
-    switch (evt.keyCode) {
-        case 37:
-            myCar.moveLeft();
-            break;
-        case 39:
-            myCar.moveRight();
-            break;
-    }
+function moveSelectionDown(evt) {
+    arrMove[evt.keyCode] = true;
+}
+
+function moveSelectionUp(evt) {
+    arrMove[evt.keyCode] = false;
 }
 
 createObstacle();
 createPeteo();
 start();
 if (!gamelose) {
-    window.addEventListener("keydown", moveEvent);
+    window.addEventListener('keydown', moveSelectionDown);
+    window.addEventListener('keyup', moveSelectionUp);
 }

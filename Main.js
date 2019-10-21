@@ -15,13 +15,12 @@ let count = 0;
 let petroCar = 500;
 let lv = 0;
 let arrMove = [];
-
 ctx.beginPath();
 ctx.drawImage(stress1, 200, 0, 400, 600);
 ctx.drawImage(car, myCar.xcar, myCar.ycar, 100, 100);
 
 function start() {
-    let highscore = localStorage.highScore;
+    let highscore = window.localStorage.highScore;
     // vẽ đường
     ctx.clearRect(0, 0, 800, 600);
     ctx.beginPath();
@@ -61,19 +60,7 @@ function start() {
     if (petroCar === 0) {
         gamelose = true;
     }
-    // di chuyển xe
-    if (arrMove[37] && myCar.xcar > 170) {
-        myCar.xcar -= myCar.speedCar;
-    }
-    if (arrMove[39] && myCar.xcar < 530) {
-        myCar.xcar += myCar.speedCar;
-    }
-    if (arrMove[38] && myCar.ycar > 0) {
-        myCar.ycar -= myCar.speedCar;
-    }
-    if (arrMove[40] && myCar.ycar < 500) {
-        myCar.ycar += myCar.speedCar;
-    }
+    myCar.moveCar();
     audio2.play();
     if (!gamelose) {
         requestAnimationFrame(start);
@@ -85,8 +72,8 @@ function start() {
         ctx.fillStyle = "red";
         ctx.fillText("YOU LOSE", 300, 300);
         ctx.strokeRect(200, 0, 400, 600);
-        if (count > localStorage.highScore) {
-            localStorage.setItem('highScore', count);
+        if (count > window.localStorage.highScore) {
+            window.localStorage.setItem('highScore', count);
         }
     }
 }
@@ -138,7 +125,6 @@ function clickStart() {
     createPeteo();
     start();
 }
-
 
 if (!gamelose) {
     window.addEventListener('keydown', moveSelectionDown);

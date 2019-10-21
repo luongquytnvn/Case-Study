@@ -74,18 +74,20 @@ function start() {
     if (arrMove[40] && myCar.ycar < 500) {
         myCar.ycar += myCar.speedCar;
     }
-
+    audio2.play();
     if (!gamelose) {
         requestAnimationFrame(start);
     } else {
         // vẽ losegame
-
+        audio1.play();
         ctx.clearRect(200, 0, 400, 600);
         ctx.font = "40px Arial";
         ctx.fillStyle = "red";
         ctx.fillText("YOU LOSE", 300, 300);
         ctx.strokeRect(200, 0, 400, 600);
-        localStorage.setItem('highScore', count);
+        if (count > localStorage.highScore) {
+            localStorage.setItem('highScore', count);
+        }
     }
 }
 
@@ -136,6 +138,7 @@ function clickStart() {
     createPeteo();
     start();
 }
+
 
 if (!gamelose) {
     window.addEventListener('keydown', moveSelectionDown);

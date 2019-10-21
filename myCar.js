@@ -1,3 +1,5 @@
+let audio1 = new  Audio('./sound/sound1.mp3');
+let audio2 = new  Audio('./sound/sound2.mp3');
 function MyCar(xcar, ycar) {
     this.xcar = xcar;
     this.ycar = ycar;

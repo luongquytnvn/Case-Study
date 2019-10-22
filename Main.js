@@ -14,13 +14,15 @@ var gamelose = false;
 let count = 0;
 let petroCar = 500;
 let lv = 0;
+if(isNaN(localStorage.highScore)) {
+    localStorage.highScore = 0;
+}
 let arrMove = [];
 ctx.beginPath();
 ctx.drawImage(stress1, 200, 0, 400, 600);
 ctx.drawImage(car, myCar.xcar, myCar.ycar, 100, 100);
-
 function start() {
-    let highscore = window.localStorage.highScore;
+    let highscore = localStorage.getItem('highScore');
     // vẽ đường
     ctx.clearRect(0, 0, 800, 600);
     ctx.beginPath();
@@ -44,7 +46,7 @@ function start() {
     // vẽ petro
     myCar.eatPetro();
     for (j = 0; j < arrPetro.length; j++) {
-        arrPetro[j].movePetro(myCar);
+        arrPetro[j].movePetro();
         ctx.drawImage(petro, arrPetro[j].xpetro, arrPetro[j].ypetro, 30, 30);
     }
 
@@ -72,8 +74,8 @@ function start() {
         ctx.fillStyle = "red";
         ctx.fillText("YOU LOSE", 300, 300);
         ctx.strokeRect(200, 0, 400, 600);
-        if (count > window.localStorage.highScore) {
-            window.localStorage.setItem('highScore', count);
+        if (count > localStorage.highScore) {
+            localStorage.setItem('highScore', count);
         }
     }
 }
